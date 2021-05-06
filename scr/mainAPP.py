@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 # Primeira Etapa
 
 # Realizando a entrada do nome do filme
-film_name = "Missão Impossíve"
+film_name = "Missão Impossível"
 # Removendo acentos e colocando as letras em minúsculo
 film = film_name.replace(" ", "+")
 film = unidecode(film)
@@ -45,4 +45,28 @@ if not list_of_names:
     print("Nenhum filme encontrado com este nome: ", film_name)
     exit(0)
 
+# Quarta Etapa
 
+'''Esta função pode necessitar de ajustes posteriores para identificar filmes diferentes com nomes iguais, 
+com base no ano, atores,popularidade ou mesmo uma escolha do usuário '''
+
+# Determinando qual filme é o requerido pelo usuário
+# Percorre a lista de nomes e encontra o primeiro filme correspondente
+for position in range(0, len(list_of_names)):
+    if unidecode(list_of_names[position]).lower() == unidecode(film_name).lower():
+        break
+
+
+# Solução: buscar todos os "rating-item-content", dentro deles separar notas entre imprensa e AdoroCinema,
+# usando o resultado presente em result. Isso garantirá que possa ser armazenado uma tupla [[filme1, nota A, nota B ..]]
+# Assim, ao enontrarmos o nome do filme, printaremos todas as notas
+
+a = []
+b = []
+for i in result:
+    if i.find_all(class_='rating-item-content'):
+        x = i.find_all(class_='rating-item-content')
+        a.append(x)
+        b.append([x.find(class_='xXx rating-title'), x.find(class_='stareval-note')])
+
+# print(b)
