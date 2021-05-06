@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 # Primeira Etapa
 
 # Realizando a entrada do nome do filme
-film_name = "Missão Impossível"
+film_name = "Missão Impossíve"
 # Removendo acentos e colocando as letras em minúsculo
 film = film_name.replace(" ", "+")
 film = unidecode(film)
