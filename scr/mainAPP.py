@@ -3,6 +3,31 @@ from unidecode import unidecode
 from bs4 import BeautifulSoup
 
 
+# Função que pega as avaliações da imprensa e do AdoroCinema.
+# Ela recebe como entrada apenas um filme da lista dos resultados e suas informações. Assim, ela retira as informações
+# Nome e Nota de cada avaliação.
+def film_rate(single_re):
+    # print(single_re)
+    # Cada info é uma possível nota. Podem ocorrer notas vazias e ausência de avaliações.
+    # Filtra o resultado pelas classes rating-item-content
+    info = single_re.find_all(class_="rating-item-content")
+    # Variável que guarda uma lista de lista com o Nome e a Nota da avaliação, Ex: [[AdoroCinema, 4], [Crítica, 3]]
+    list_of_notes = []
+    # Para cada avaliação dentro do filme
+    for f in info:
+        # Cria uma lista que armazena o Nome e Nota de uma única avaliação
+        tuple = []
+        # Separa as informações úteis da avaliação. i é uma tupla do tipo [<>,<>]
+        i = f.find_all('span')
+        # print(i)
+        # Para cada valor presente em i, devemor retirar apenas o conteúdo. Dessa forma, obtém-se o [Nome, Nota]
+        for a in i:
+            tuple.append(a.contents[0])
+        # Adiciona a tupla na lista de lista que contém as avaliações
+        list_of_notes.append(tuple)
+    # Retorna a lista com as avaliações
+    return list_of_notes
+
 # Primeira Etapa
 
 # Realizando a entrada do nome do filme
@@ -34,12 +59,15 @@ result = data.find_all("li")
 # Lista que armazena os nomes de cada um dos títulos dos resultados
 list_of_names = []
 # Percorre a lista dos resultados, separando apenas o nome do filme e ignorando as demais informações
+notes = []
 for re in result:
     # Se o resultado não for vazio, significa que existe algum filme que corresponde à pesquisa
     if re.find_all("h2"):
         # Adiciona o nome do filme à lista com os nomes mostrados após a pesquisa
         # A função contents retira apenas o conteúdo contido no trecho HTML
         list_of_names.append(re.find_all("h2")[0].contents[1].contents[0])
+        # Para cada filme retornado, busca todas as avaliações presentes e adiciona na lista notes
+        notes.append(film_rate(re))
 
 # Encerra a execução do programa caso nenhum filme seja encontrado com a pesquisa
 if not list_of_names:
@@ -58,25 +86,10 @@ for position in range(0, len(list_of_names)):
         break
 
 
-# Solução: buscar todos os "rating-item-content", dentro deles separar notas entre imprensa e AdoroCinema,
-# usando o resultado presente em result. Isso garantirá que possa ser armazenado uma tupla [[filme1, nota A, nota B ..]]
-# Assim, ao enontrarmos o nome do filme, printaremos todas as notas
+print(list_of_names)
+print(len(list_of_names))
+print(notes)
+print(len(notes))
 
-lista = []
-
-i = 1
-for re in result:
-    aux = []
-    if re.find_all(class_='rating-item-content'):
-        aux.append(re.find_all(class_='rating-item-content')[0])
-        a = re.find_all(class_='rating-item-content')[0]
-        print(i, '\n----\n', re.find_all(class_='rating-item-content')[0])
-        a = a.find_all('span')
-        # print(i, '\n----\n', a)
-        lista.append(a)
-        i = i+1
-
-print(lista)
-# print(aux)
 
 
