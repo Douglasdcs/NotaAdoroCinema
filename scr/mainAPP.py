@@ -13,6 +13,7 @@ film = unidecode(film)
 film = film.lower()
 # Montando o link de pesquisa
 page = "https://www.adorocinema.com/pesquisar/movie/?q=" + film
+# print(page)
 
 # Segunda Etapa
 
@@ -61,12 +62,21 @@ for position in range(0, len(list_of_names)):
 # usando o resultado presente em result. Isso garantirá que possa ser armazenado uma tupla [[filme1, nota A, nota B ..]]
 # Assim, ao enontrarmos o nome do filme, printaremos todas as notas
 
-a = []
-b = []
-for i in result:
-    if i.find_all(class_='rating-item-content'):
-        x = i.find_all(class_='rating-item-content')
-        a.append(x)
-        b.append([x.find(class_='xXx rating-title'), x.find(class_='stareval-note')])
+lista = []
 
-# print(b)
+i = 1
+for re in result:
+    aux = []
+    if re.find_all(class_='rating-item-content'):
+        aux.append(re.find_all(class_='rating-item-content')[0])
+        a = re.find_all(class_='rating-item-content')[0]
+        print(i, '\n----\n', re.find_all(class_='rating-item-content')[0])
+        a = a.find_all('span')
+        # print(i, '\n----\n', a)
+        lista.append(a)
+        i = i+1
+
+print(lista)
+# print(aux)
+
+
