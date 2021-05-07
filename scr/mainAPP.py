@@ -23,8 +23,9 @@ def film_rate(single_re):
         # Para cada valor presente em i, devemor retirar apenas o conteúdo. Dessa forma, obtém-se o [Nome, Nota]
         for a in i:
             tuple.append(a.contents[0])
-        # Adiciona a tupla na lista de lista que contém as avaliações
-        list_of_notes.append(tuple)
+        # Adiciona a tupla na lista de lista que contém as avaliações, se não for vazio ou faltar dados
+        if len(tuple) == 2:
+            list_of_notes.append(tuple)
     # Retorna a lista com as avaliações
     return list_of_notes
 
@@ -83,13 +84,23 @@ com base no ano, atores,popularidade ou mesmo uma escolha do usuário '''
 # Percorre a lista de nomes e encontra o primeiro filme correspondente
 for position in range(0, len(list_of_names)):
     if unidecode(list_of_names[position]).lower() == unidecode(film_name).lower():
+        print('-------------------')
+        print("Filme buscado: ", film_name)
+        print("-------------------\nAvaliações: \n-------------------")
+        # Printa as notas de cada crítica, removendo espaços remanescentes
+        for rate in notes[position]:
+            n = rate[0].strip()
+            r = rate[1].strip()
+            print(n, ": ", r)
+        print("-------------------")
         break
 
 
-print(list_of_names)
-print(len(list_of_names))
-print(notes)
-print(len(notes))
+# print(list_of_names)
+# print(len(list_of_names))
+# print(notes)
+# print(len(notes))
 
-
+if __name__ == "__main__":
+    print("Ola")
 
